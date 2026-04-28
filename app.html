@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Snapzy Consistency — Track your daily habits, build streaks, and stay consistent every day."/>
+  <title>Snapzy Consistency — Habit Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/main.css"/>
+  <link rel="stylesheet" href="css/components.css"/>
+</head>
+<body>
+<div class="app-shell">
+
+  <!-- Header -->
+  <header class="app-header">
+    <a href="index.html" style="text-decoration:none;">
+      <div class="logo">Snapzy</div>
+    </a>
+    <div class="header-month-nav">
+      <button id="prevMonthBtn" class="month-nav-btn" title="Previous month">&#8249;</button>
+      <span id="monthYearLabel">April 2026</span>
+      <button id="nextMonthBtn" class="month-nav-btn" title="Next month">&#8250;</button>
+    </div>
+    <div class="header-spacer"></div>
+    <div class="header-actions">
+      <button id="addHabitBtn" class="btn-primary" style="font-size:0.82rem;padding:7px 16px;">+ Add Habit</button>
+      <button id="themeToggleBtn" class="icon-btn" title="Toggle theme">☀️</button>
+    </div>
+  </header>
+
+  <!-- Tab Nav -->
+  <nav class="tab-nav" role="tablist">
+    <button class="tab-btn active" data-tab="dashboard" role="tab"><span class="tab-icon">🏠</span>Dashboard</button>
+    <button class="tab-btn" data-tab="habits" role="tab"><span class="tab-icon">📋</span>Habits</button>
+    <button class="tab-btn" data-tab="stats" role="tab"><span class="tab-icon">📊</span>Stats</button>
+    <button class="tab-btn" data-tab="settings" role="tab"><span class="tab-icon">⚙️</span>Settings</button>
+  </nav>
+
+  <main class="app-main">
+
+    <!-- DASHBOARD -->
+    <div id="view-dashboard" class="view active" role="tabpanel">
+      <div class="dashboard-grid">
+        <aside class="left-panel">
+          <div class="card quote-card" id="quoteCard"></div>
+          <div class="card affirmation-card" id="affirmationCard"></div>
+          <div class="card role-selector-card" id="roleSelectorCard"></div>
+        </aside>
+        <section class="center-panel">
+          <div class="card area-chart-wrap" id="areaChartWrap"></div>
+          <div class="card" id="weeklyBarsWrap"></div>
+          <div class="card" id="weeklyRingsWrap"></div>
+        </section>
+        <aside class="right-panel">
+          <div class="card overall-ring-card" id="overallRingCard"></div>
+          <div class="card" id="leaderboardCard"></div>
+        </aside>
+      </div>
+    </div>
+
+    <!-- HABITS -->
+    <div id="view-habits" class="view" role="tabpanel">
+      <div class="habits-view-header">
+        <h2>Daily Habits</h2>
+        <div class="habits-header-actions">
+          <div class="view-toggle">
+            <button class="view-toggle-btn active" data-view="monthly">Monthly</button>
+            <button class="view-toggle-btn" data-view="weekly">Weekly</button>
+          </div>
+        </div>
+      </div>
+      <div id="habitGridWrapper"></div>
+    </div>
+
+    <!-- STATS -->
+    <div id="view-stats" class="view" role="tabpanel">
+      <div id="statsView"></div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div id="view-settings" class="view" role="tabpanel">
+      <div id="settingsView"></div>
+    </div>
+
+  </main>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="mobile-nav" role="navigation">
+    <div class="mobile-nav-items">
+      <button class="mobile-nav-btn active" data-tab="dashboard"><span class="nav-icon">🏠</span>Home</button>
+      <button class="mobile-nav-btn" data-tab="habits"><span class="nav-icon">📋</span>Habits</button>
+      <button class="mobile-nav-btn" data-tab="stats"><span class="nav-icon">📊</span>Stats</button>
+      <button class="mobile-nav-btn" data-tab="settings"><span class="nav-icon">⚙️</span>Settings</button>
+    </div>
+  </nav>
+
+</div>
+
+<!-- Habit Modal -->
+<dialog id="habitModal" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-inner">
+    <h3 class="modal-title" id="modalTitle">New Habit</h3>
+    <div class="modal-field">
+      <label for="habitNameInput">Habit Name</label>
+      <input id="habitNameInput" type="text" placeholder="e.g. Read 30 minutes" maxlength="60" autocomplete="off"/>
+    </div>
+    <div class="modal-field">
+      <label>Choose an Icon</label>
+      <div class="icon-grid" id="iconGrid"></div>
+    </div>
+    <div class="modal-field">
+      <label for="habitCatSelect">Category</label>
+      <select id="habitCatSelect">
+        <option value="Health">🌿 Health</option>
+        <option value="Learning">📚 Learning</option>
+        <option value="Work">💻 Work</option>
+        <option value="Mindfulness">🧘 Mindfulness</option>
+        <option value="Finance">💰 Finance</option>
+        <option value="Social">🤝 Social</option>
+      </select>
+    </div>
+    <div class="modal-field">
+      <label for="habitFreqSelect">Frequency</label>
+      <select id="habitFreqSelect">
+        <option value="daily">Every day</option>
+        <option value="weekdays">Weekdays only (Mon–Fri)</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-cancel" id="modalCancelBtn">Cancel</button>
+      <button class="modal-save" id="modalSaveBtn">Save Habit</button>
+    </div>
+  </div>
+</dialog>
+
+<div id="toastContainer" aria-live="polite"></div>
+
+<!-- Scripts -->
+<script src="js/data.js"></script>
+<script src="js/rolePresets.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/habits.js"></script>
+<script src="js/stats.js"></script>
+<script src="js/settings.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
